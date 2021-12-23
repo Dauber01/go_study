@@ -39,7 +39,7 @@ func detailget(c *gin.Context) {
 	})
 }
 
-func main1() {
+func main2() {
 	router := gin.Default()
 
 	//设定html文件的请求目录,用来存放静态页面
