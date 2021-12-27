@@ -17,6 +17,8 @@ type Movie struct {
 func TestJson(t *testing.T) {
 	data := jsonFormat()
 	jsonToStru(data)
+	ans := uint(1)
+	log.Println(ans)
 }
 
 func jsonToStru(data []byte) {
