@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func main() {
+func main1() {
 	var ben = &Ben{id: 10, name: "Ben"}
 	var Jerry = &Jerry{name: "Jerry"}
 	var maker IceCreamMaker = ben
