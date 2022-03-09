@@ -17,7 +17,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+	//golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 //golang.org/x/sync/errgroup v0.0.0-20210220032951-036812b2e83c
@@ -34,7 +34,7 @@ require (
 	github.com/prometheus/procfs v0.1.3 // indirect
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644 // indirect
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
-	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
+	golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/protobuf v1.23.0 // indirect
 )
