@@ -26,6 +26,7 @@ func jsonToStru(data []byte) {
 	if err := json.Unmarshal(data, &title); err != nil {
 		log.Fatalf("json unmarshal fail %s", err)
 	}
+	//当数据来自于流式部分,如io.Reader/http.Request的Body使用Decoder更好,对于来源于string/内存的某个地方使用Unmarshal更好
 	//对应的 .NewDecoder().Decode(&) 为流式解码器,在此处无法使用
 	//json.NewDecoder(data).Decode(&title)
 	fmt.Println(title)

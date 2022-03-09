@@ -15,7 +15,7 @@
     "go.formatTool": "goreturns",
     "go.gocodeAutoBuild": false,
     "go.goroot": "/usr/local/go",
-    "go.gopath": "/Users/lucifer/go",
+    "go.gopath": "/Users/wanxiaolu/go",
     "go.autocompleteUnimportedPackages": true,
     "go.formatOnSave": true,
     "window.zoomLevel": 0,
