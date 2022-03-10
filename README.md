@@ -5,8 +5,6 @@
 1.imooc的gin视频
 2.MIT的编程规范书
 3.jktime的go进阶教程
-4.git暂时可以推下
-5.grpc源码
-6.eureka源码
-7.论文,对一些模式和数据有深入的理解
-test
+4.grpc源码
+5.eureka源码
+6.论文,对一些模式和数据有深入的理解
