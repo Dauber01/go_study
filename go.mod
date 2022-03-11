@@ -21,9 +21,7 @@ require (
 	//golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
-	github.com/e421083458/golang_common/lib v1.2.1
-	github.com/e421083458/gin_scaffold/public v1.2.3
-	github.com/e421083458/gin_scaffold/router v1.2.3
+	//github.com/e421083458/golang_common/lib v1.2.1
 )
 
 require (
