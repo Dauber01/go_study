@@ -8,3 +8,8 @@
 4.grpc源码
 5.eureka源码
 6.论文,对一些模式和数据有深入的理解
+go mode
+1.go mod init 初始化模块
+2.go get 添加依赖
+杂记
+1.os.GetWd()获取文件夹路径的方案

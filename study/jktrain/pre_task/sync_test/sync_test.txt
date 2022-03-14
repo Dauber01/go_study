@@ -1,0 +1,6 @@
+1. sync.Map 并发安全的map
+2. sync.Mutex 锁
+3. sync.RWMutex 读写锁
+    锁不可重入也不可升级
+4. sync.Once 只执行一次
+5. sync.WaitGroup groutine之间同步
