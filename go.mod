@@ -21,7 +21,7 @@ require (
 	//golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
-	//github.com/e421083458/golang_common/lib v1.2.1
+//github.com/e421083458/golang_common/lib v1.2.1
 )
 
 require (
@@ -30,6 +30,7 @@ require (
 	github.com/go-playground/validator/v10 v10.2.0
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.7.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.10.0 // indirect
