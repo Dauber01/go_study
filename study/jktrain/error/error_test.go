@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-var Wuhuiexce error = errors.New("哈哈哈")
+var Wuhuiexce = errors.New("哈哈哈")
 
 func TestError(t *testing.T) {
 	err := origin()
