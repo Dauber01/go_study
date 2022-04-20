@@ -9,3 +9,10 @@ goroutine在创建和执行的过程中,可能会因为服务/主进程的退出
 log.Fatal() 
     可以直接结束该go进程, 方法内部会调用os.Exit(), 会忽略掉defer()函数的拦截, 直接进行无条件的终止
     所以在使用的时候要小心, 只建议在init()函数或者main()函数中主动进行调用
+
+go为原子的操作只能限定为8字节,不能以自己以为的为原子操作,对于
+type interfce struct{
+    Type uintptr    //接口类型的字段
+    Data uintptr    //接口数据的字段
+}
+模型相当于上面那样,所以interface的实际操作的时候,可能会出现类型和数据不统一的问题,见interface_atomic_test.go
