@@ -1,0 +1,24 @@
+channels
+    channels是一种类型安全的消息队列,充当两个goroutine之间的管道,将通过它同步的进行任意资源的交换
+1. 无缓冲chan没有容量,交换前需要两个goroutine同时准备好;无接收者时,生产者阻塞;无人生产时候,接受者阻塞.无缓冲信道的本质上是保证同步
+    a. Receive先于Send发生
+    b. 好处是百分之百能保证收到
+    c. 代价是延迟时间未知
+2. 有缓冲chan,在缓冲满之前不会阻塞生产者和消费者,但在缓冲满后,生产者存入新的消息会被阻塞;缓冲变为空后,消费者会被阻塞
+    a. Send先于Receive发生
+    b. 好处是延迟更小
+    c. 代价是不保证数据到达,越大的buffer,越小的保障到达;buffer=1时，给你延迟一个消息的保障
+
+contexts
+1. 方法
+    a. Deadline() (deadline time.Time, ok bool) // 用来查看deadline时间,ok表示有否设置deadline
+    b. Done() <- chan struct{}  // 在关闭通道的时候,代表着context会关闭
+    c. Err() error  // 当done结束之后,提供一个非空的error
+    d. Value(key interface{}) interface{}   // 返回一个在域中用key联系的值
+2. 使用注意
+    a. contexts作为一个域,用来在请求级别进行操作和进行处理,传递该参数一般使用可选的第一个参数
+    b. 对contexts的使用应该是贯穿整个请求的,不应该存储在结构体中,除非将该结构纯粹的用作通道传递消息
+3. context.WithValue
+    内部基于valueCtx实现,内部在查找key的时候,使用递归方式不断从当前,从父节点寻找匹配的key,直到root context(Backgrond和TODO Value函数会返回)
+    使用的时候容易犯错的地方在于context value应该是immutable的,每次重新赋值应该是新的context,即context.WithValue(ctx, oldvalue)
+4. 当一个context被取消时候,所有派生与它的context也将被取消,而且是对消息通道的传递,层层关闭自己的子
