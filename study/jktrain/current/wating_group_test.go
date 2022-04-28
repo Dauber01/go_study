@@ -38,6 +38,7 @@ const timeout = 5 * time.Second
 
 func TestWaitGroup(t *testing.T) {
 
+	// 通过对应的表达式可以设置context的超时时间
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 

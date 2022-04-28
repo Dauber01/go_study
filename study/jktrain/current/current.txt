@@ -6,13 +6,48 @@ filepath.walkDir()也是对应的实现方法,所以是否开启goroutine的主�
 goroutine在创建和执行的过程中,可能会因为服务/主进程的退出,无法进行完完整的生命周期
 所以要使用sync.waitinggroup进行追踪
 
+对于多线程的程序,所有的cpu都会提供锁支持,称之为barrier,或者fence,它要求:
+barrier指令要求所有对内存的操作都必须要"扩散"到memory之后才能继续执行其他对memory的操作,因此,我们可以用高级点的atomic compare-and-swap,或者直接进行更高级的锁,通常是标准库提供的
+
 log.Fatal() 
     可以直接结束该go进程, 方法内部会调用os.Exit(), 会忽略掉defer()函数的拦截, 直接进行无条件的终止
     所以在使用的时候要小心, 只建议在init()函数或者main()函数中主动进行调用
 
-go为原子的操作只能限定为8字节,不能以自己以为的为原子操作,对于
+data race在两个或多个groutine访问同一个资源的时候，禅师对项目同时进行读写的时候会报的一个bug:
+1. 在go 1.1 之后,go工具引入了一个race detector,可以用来发现竞态条件
+2. 但是该工具不会在生产环境下进行使用,因为对性能会产生一定影响,而且会导致整个进程直接stop掉;但在测试环境中可以进行使用
+go build -race    go test -race
+
+通过 go build -s 可以将编译之后的机器码打印出来,可以看到执行的过程 
+
+go为原子的操作只能限定为8字节,不能在不了解类型情况下判定其为machine word,以为可以对其进行原子操作,对于
 type interfce struct{
     Type uintptr    //接口类型的字段
     Data uintptr    //接口数据的字段
 }
 模型相当于上面那样,所以interface的实际操作的时候,可能会出现类型和数据不统一的问题,见interface_atomic_test.go
+
+对于go的结构:
+1. 目前slice并不是machine word,因为slice的指针并不是指向数组的头的元素,而是指向一个slice Header对象，这个对象并不是slice操作
+2. 对于map,目前刚巧是一个指针,是machine word进行存储的,但是不保证在以后的版本变化中还是machine word进行存储的
+3. 对于一个普通的指针来说,应该也不是machine word进行存储的
+同时,即使进行了原子性的替换,在不同的goroutine中也不能保证其可见行
+所以,没有安全的data race(safe data race),一个程序中要么没有data race,要么其操作未定义
+
+barging(闯入的): 
+为了提高吞吐量,当锁被释放时,它允许队列中的第一个等待者和新进入的请求争抢锁,提高吞吐量
+handsoff(放手):
+锁在释放的时候会一直持有到第一个等待者准备好获取锁,降低了吞吐量,但平衡了两个goroutine之间的锁分配
+spinning(自旋):
+在队列为空或者应用程序重度使用锁的时候效果不错,parking和unparking gotoutine有不低的性能成本开销,相比自旋来说要慢得多
+
+在go1.8的版本中使用了Barging和spinning的结合实现,试图获取已持有的锁时,如果本地队列为空且p的数量大于1,goroutine将自旋几次
+在go1.9添加了一个新的饥饿模式来解决先前的问题,该模式在释放时会触发handsoff,所有等待超过1ms的goroutine(也称为有界等待),将被诊断为饥饿,当被标记为饥饿状态时,unlock方法会handsoff把锁直接扔给下一个等待者
+    在饥饿模式下,自旋也被停用,因为传入的goroutine将没有机会获取为下一个等待者保留的锁
+
+sync.Pool
+1. 用来保存临时和复用临时对象,减少内存分配,降低GC压力
+2. Get返回Pool中任意一个对象,如果Pool为空,则调用New返回一个新创建的对象
+3. 放进Pool中的对象不确定什么时候会被回收掉,放入进去的100个对象,可能下次Get的时候发现Pool是空也有可能,好处是不用担心Pool会一直增长,因为GO已经帮你在pool中做好了回收机制
+4. 清理过程是在每次垃圾回收之前做的,在1.13版本中引入了victim cache,会将pool内数据拷贝一份,避免GC将其清空,即使没有引用的内容也可以保留最多两轮GC
+5. pool的结构是一个ring buffer(定长FIFO)+双向链表的方式,头部只能写入,尾部可以并发读取
