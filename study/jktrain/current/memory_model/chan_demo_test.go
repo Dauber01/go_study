@@ -23,7 +23,7 @@ func gen(nums ...int) <-chan int {
 	go func() {
 		for _, v := range nums {
 			out <- v
-			time.Sleep(time.Duration(timeout.Microseconds()) * 500)
+			time.Sleep(time.Duration(time.Microseconds()) * 500)
 			println("this")
 		}
 		close(out)
