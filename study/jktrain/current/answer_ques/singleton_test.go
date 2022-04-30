@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var so *singleton = &singleton{}
+// var so *singleton = &singleton{}
 
 var once sync.Once
 var s *singleton
