@@ -1,7 +1,6 @@
 package answerques_test
 
 import (
-	"fmt"
 	"sync"
 	"testing"
 )
@@ -11,15 +10,18 @@ var so *singleton = &singleton{}
 var once sync.Once
 var s *singleton
 
+// 这个看起来是单例的,是因为所有没有属性的struct的实例指针都是相同的
 func Factory() func() *singleton {
 	s := &singleton{}
-	fmt.Println("哈哈哈哈哈")
 	return func() *singleton {
 		return s
 	}
 }
 
 type singleton struct {
+}
+
+type singletonTest struct {
 }
 
 func GetSingleInstance() *singleton {
@@ -34,6 +36,15 @@ func TestSingleton(t *testing.T) {
 		fun := Factory()
 		s := fun()
 		t.Logf("%p", s)
+	}
+	for i := 0; i < 10; i++ {
+		sk := &singleton{}
+		t.Logf("%p", sk)
+	}
+
+	for i := 0; i < 10; i++ {
+		st := &singletonTest{}
+		t.Logf("%p", st)
 	}
 
 	/* for i := 0; i < 100; i++ {

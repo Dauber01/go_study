@@ -1,16 +1,12 @@
 package current_test
 
 import (
-	"context"
-	"errors"
-	"fmt"
 	"testing"
-
-	"golang.org/x/sync/errgroup"
+	//"golang.org/x/sync/errgroup"
 )
 
 func TestErrGroup(t *testing.T) {
-	g, ctx := errgroup.WithContext(context.Background())
+	/* g, ctx := errgroup.WithContext(context.Background())
 	var a, b, c []int
 	//调用广告
 	g.Go(func() error {
@@ -29,5 +25,5 @@ func TestErrGroup(t *testing.T) {
 	})
 	err := g.Wait()
 	fmt.Println(err)
-	fmt.Println(ctx.Err())
+	fmt.Println(ctx.Err()) */
 }
