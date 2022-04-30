@@ -1,4 +1,4 @@
-package current_test
+package answerques_test
 
 import (
 	"fmt"
